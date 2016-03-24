@@ -18,4 +18,9 @@ public class HelloRestController {
     public Greeting greet() {
         return greeting;
     }
+
+    @RequestMapping(value="/hi", method = RequestMethod.GET)
+    public String hi() {
+        return "hi";
+    }
 }
