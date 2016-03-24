@@ -1,4 +1,4 @@
-package com.helloworld.model;
+package example.helloworld.model;
 
 import org.springframework.stereotype.Component;
 

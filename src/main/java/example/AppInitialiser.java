@@ -1,7 +1,7 @@
-package com.helloworld;
+package example;
 
 
-import com.helloworld.spring.SpringMVCConfig;
+import example.springconfig.SpringMVCConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 // This operates instead of web.xml

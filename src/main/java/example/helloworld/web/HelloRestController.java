@@ -1,6 +1,6 @@
-package com.helloworld.web;
+package example.helloworld.web;
 
-import com.helloworld.model.Greeting;
+import example.helloworld.model.Greeting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
