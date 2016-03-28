@@ -1,6 +1,7 @@
 package example;
 
 
+import example.springconfig.RootApplicationContext;
 import example.springconfig.SpringMVCConfig;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
@@ -10,7 +11,7 @@ public class AppInitialiser extends
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{SpringMVCConfig.class};
+        return new Class[]{RootApplicationContext.class};
     }
 
     @Override

@@ -12,6 +12,8 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @ComponentScan({"example"})
 @EnableWebMvc
 public class SpringMVCConfig extends WebMvcConfigurerAdapter {
+    // Servlet specific controllers and view resolvers.
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
