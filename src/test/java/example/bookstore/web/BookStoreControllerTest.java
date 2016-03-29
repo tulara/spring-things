@@ -53,6 +53,12 @@ public class BookStoreControllerTest {
     }
 
     @Test
+    public void shouldReturn400OnInvalidId() throws Exception {
+        mockMvc.perform(get("/book/NaN"))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     public void shouldShowAllBooks() throws Exception {
         Mockito.when(bookService.getBooks()).thenReturn(sampleServiceResponse);
         mockMvc.perform(get("/book"))
