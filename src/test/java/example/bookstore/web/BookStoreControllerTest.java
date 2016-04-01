@@ -1,5 +1,6 @@
 package example.bookstore.web;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import example.bookstore.model.Book;
 import example.bookstore.service.BookService;
 import org.junit.Before;
@@ -7,6 +8,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
@@ -14,18 +16,20 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 public class BookStoreControllerTest {
-    //integration test
 
     MockMvc mockMvc;
 
     @Mock
-    BookService bookService = new BookService();
+    BookService bookService;
 
     private static List<Book> sampleServiceResponse = Arrays.asList(
             new Book("Jane Eyre", "Charlotte Brontë", 1),
@@ -66,5 +70,18 @@ public class BookStoreControllerTest {
                 .andExpect(jsonPath("$", hasSize(2)));
     }
 
+    @Test
+    public void shouldCreateNewBook() throws Exception {
+        Book newBook = new Book("Emma", "Jane Austen", 3);
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(newBook);
+
+
+        mockMvc.perform(post("/book")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(json))
+                .andExpect(status().isCreated());
+        verify(bookService).createBook(any(Book.class));
+    }
 
 }

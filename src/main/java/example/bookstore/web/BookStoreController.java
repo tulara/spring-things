@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.xml.ws.Response;
 import java.util.List;
 
 @RestController
@@ -34,6 +35,12 @@ public class BookStoreController {
         List<Book> books = bookService.getBooks();
         return books.isEmpty() ? new ResponseEntity<List<Book>>(HttpStatus.NOT_FOUND) :
                 new ResponseEntity<>(books, HttpStatus.OK);
+    }
+
+    @RequestMapping(value="/book", method= RequestMethod.POST)
+    public ResponseEntity<Book> createBook(Book book){
+        bookService.createBook(book);
+        return new ResponseEntity<Book>(book, HttpStatus.CREATED);
     }
 
 

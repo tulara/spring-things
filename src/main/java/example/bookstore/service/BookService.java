@@ -3,15 +3,16 @@ package example.bookstore.service;
 import example.bookstore.model.Book;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @Service
 public class BookService {
 
-    private List<Book> books = Arrays.asList(
+    private List<Book> books = new ArrayList<>(Arrays.asList(
             new Book("Jane Eyre", "Charlotte Brontë", 1),
-            new Book("Great Expectations", "Charles Dickens", 2));
+            new Book("Great Expectations", "Charles Dickens", 2)));
 
     public BookService(){}
 
@@ -26,5 +27,9 @@ public class BookService {
 
     public List<Book> getBooks() {
         return books;
+    }
+
+    public void createBook(Book newBook) {
+        books.add(newBook);
     }
 }
