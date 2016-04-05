@@ -32,4 +32,8 @@ public class BookService {
     public void createBook(Book newBook) {
         books.add(newBook);
     }
+
+    public boolean contains(Book book) {
+        return books.contains(book);
+    }
 }

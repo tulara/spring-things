@@ -1,5 +1,6 @@
 package example.bookstore.web;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import example.bookstore.model.Book;
 import example.bookstore.service.BookService;
@@ -72,16 +73,27 @@ public class BookStoreControllerTest {
 
     @Test
     public void shouldCreateNewBook() throws Exception {
-        Book newBook = new Book("Emma", "Jane Austen", 3);
-        ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writeValueAsString(newBook);
-
-
+        String json = jsonify(new Book("Emma", "Jane Austen", 3));
         mockMvc.perform(post("/book")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(json))
                 .andExpect(status().isCreated());
         verify(bookService).createBook(any(Book.class));
+    }
+
+    @Test
+    public void shouldNotBeAbleToCreateDuplicateBooks() throws Exception {
+        String duplicateBookJson = jsonify(new Book("Jane Eyre", "Charlotte Brontë", 9));
+        Mockito.when(bookService.contains(any(Book.class))).thenReturn(true);
+        mockMvc.perform(post("/book")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(duplicateBookJson))
+                .andExpect(status().isConflict());
+    }
+
+    private String jsonify(Book newBook) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        return mapper.writeValueAsString(newBook);
     }
 
 }

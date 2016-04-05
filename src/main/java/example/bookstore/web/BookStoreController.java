@@ -39,6 +39,9 @@ public class BookStoreController {
     @RequestMapping(value="/book", method= RequestMethod.POST, consumes="application/json")
     public ResponseEntity<Book> createBook(@RequestBody Book book){
         logger.debug("created book with title: " + book.getTitle());
+        if(bookService.contains(book)) {
+            return new ResponseEntity<Book>(book, HttpStatus.CONFLICT);
+        }
         bookService.createBook(book);
         return new ResponseEntity<Book>(book, HttpStatus.CREATED);
     }
