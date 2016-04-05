@@ -2,20 +2,19 @@ package example.bookstore.web;
 
 import example.bookstore.model.Book;
 import example.bookstore.service.BookService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.xml.ws.Response;
 import java.util.List;
 
 @RestController
 public class BookStoreController {
 
+    private final Logger logger = LoggerFactory.getLogger(BookStoreController.class);
     private BookService bookService;
 
     @Autowired
@@ -37,11 +36,10 @@ public class BookStoreController {
                 new ResponseEntity<>(books, HttpStatus.OK);
     }
 
-    @RequestMapping(value="/book", method= RequestMethod.POST)
-    public ResponseEntity<Book> createBook(Book book){
+    @RequestMapping(value="/book", method= RequestMethod.POST, consumes="application/json")
+    public ResponseEntity<Book> createBook(@RequestBody Book book){
+        logger.debug("created book with title: " + book.getTitle());
         bookService.createBook(book);
         return new ResponseEntity<Book>(book, HttpStatus.CREATED);
     }
-
-
 }
